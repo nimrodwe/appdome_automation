@@ -30,4 +30,5 @@ RUN pip install pytest pytest-html
 # Install Playwright browsers
 RUN playwright install
 
-# Default command using xvfb so headful browser works in Docker#CMD ["pytest", "--html=report.html", "--self-contained-html"]
+# Default command using xvfb so headful browser works in Docker
+CMD ["pytest", "--html=report.html", "--self-contained-html"]
