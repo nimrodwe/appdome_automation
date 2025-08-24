@@ -12,9 +12,10 @@ RUN apt-get update && \
         libglib2.0-0 libnss3 libfontconfig1 \
         libxss1 libgtk-3-0 libasound2 \
         xvfb libx11-xcb1 \
-        openjdk-11-jre \
+        default-jdk \
     && apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
 
 # -----------------------------
 # Create Jenkins agent user
