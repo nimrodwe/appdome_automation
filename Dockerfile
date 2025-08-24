@@ -20,14 +20,11 @@ RUN apt-get update && \
 # Create Jenkins agent user
 # -----------------------------
 RUN useradd -m -d /home/jenkins jenkins
-WORKDIR /home/jenkins/agent
+RUN mkdir -p /home/jenkins/agent && chown -R jenkins:jenkins /home/jenkins/agent
 
 # -----------------------------
-# Switch back to root for installs
+# Set working directories
 # -----------------------------
-USER root
-
-# Copy project files
 WORKDIR /app
 COPY . /app
 
@@ -42,6 +39,12 @@ RUN pip install pytest pytest-html
 RUN playwright install
 
 # -----------------------------
-# Default command (for manual runs, Jenkins overrides this)
+# Switch to Jenkins user for running as agent
 # -----------------------------
-CMD ["pytest", "tests/", "--html=report.html", "--self-contained-html"]
+USER jenkins
+WORKDIR /home/jenkins/agent
+
+# -----------------------------
+# Default command (for manual runs; Jenkins overrides this)
+# -----------------------------
+CMD ["pytest", "/app/tests/", "--html=/app/report.html", "--self-contained-html"]
